@@ -16,21 +16,22 @@ function HomePage({top_picks}) {
     let navigate = useNavigate()
     // localStorage.setItem('userData', JSON.stringify(initial_values.userData))
     const newUserData = localStorage.getItem('userData') ? localStorage.getItem('userData') : [];
+    const now = `${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:${new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds()}, ${new Date().getDate() < 10 ? '0' + new Date().getDate()  : new Date().getDate()}.${new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()}.${new Date().getFullYear()}`
     let blogs = [
         {
             img: blog_photo,
             slogan: "Going all-in with millennial design",
-            time: `${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:${new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds()}, ${new Date().getDate() < 10 ? '0' + new Date().getDate()  : new Date().getDate()}.${new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()}.${new Date().getFullYear()}`,
+            time: `${now}`,
         },
         {
             img: blog_photo,
             slogan: "Going all-in with millennial design",
-            time: `${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:${new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds()}, ${new Date().getDate() < 10 ? '0' + new Date().getDate()  : new Date().getDate()}.${new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()}.${new Date().getFullYear()}`,
+            time: `${now}`,
         },
         {
             img: blog_photo,
             slogan: "Going all-in with millennial design",
-            time: `${new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours()}:${new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes()}:${new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds()}, ${new Date().getDate() < 10 ? '0' + new Date().getDate()  : new Date().getDate()}.${new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()}.${new Date().getFullYear()}`,
+            time: `${now}`,
         },
     ]
     return (
