@@ -852,7 +852,14 @@ footer div ul li{
   align-items: center;
   gap: 10px;
 }
-.addproduct_buttons{
-  
+/* .cards_clients{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
 }
+.cards_clients div{
+  border: 1px solid black;
+} */
   

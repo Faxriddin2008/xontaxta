@@ -27,12 +27,21 @@ function InBasket() {
 
   const ShopCardData = () => [
     {
+      title: "Product img",
+      dataIndex: "img",
+      key: "img",
+      render: (_, record) => (
+        <p >
+          <img src={record.img} className="inbasket_img" alt="" />
+        </p>
+      ),
+    },
+    {
       title: "Product name",
       dataIndex: "name",
       key: "name",
       render: (_, record) => (
-        <p className="basket_item_wrapper">
-          <img src={record.img} className="inbasket_img" alt="" />
+        <p>
 
           {record.name}
         </p>
@@ -261,7 +270,7 @@ function InBasket() {
               {load == true ? (
                 <Spin size="large" />
               ) : (
-                <Table columns={ShopCardData()} dataSource={basket} />
+                <Table style={{width: "1110px", marginLeft: "30px"}} columns={ShopCardData()} dataSource={basket} />
               )}
             </div>
           </div>

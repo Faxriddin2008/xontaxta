@@ -20,6 +20,8 @@ import InBasket from './components/shop_pages/Product_Pages/InBasket';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { message } from 'antd';
 import { useEffect } from 'react';
+import Clients from './components/shop_pages/Clients';
+import ClientsView from './components/shop_pages/ClientsView';
 // import { useNavigate } from 'react-router-dom';
 
 function App() {
@@ -78,6 +80,8 @@ useEffect(() => {
           <Route exact path='/shop/details' element={<Details/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/products' element={<Products/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/sales' element={<Sales/>} errorElement={<NotFound/>}></Route>
+          <Route exact path='/shop/clients' element={<Clients/>} errorElement={<NotFound/>}></Route>
+          <Route exact path='/shop/clients/view' element={<ClientsView/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/about' element={<About/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/contact' element={<Contact/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/inbasket' element={<InBasket/>} errorElement={<NotFound/>}></Route>
