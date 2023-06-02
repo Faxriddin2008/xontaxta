@@ -135,8 +135,9 @@ function Products() {
                 <button>Oxirgi qo'shilganlar</button>
               </div>
             </div>
+            {load == false ? 
             <div className="cards">
-              {load == false ? arrr.length != 0
+              { arrr.length != 0
                 ? arrr.map((item, i) => (
                     <Product
                       name={item.name}
@@ -149,8 +150,9 @@ function Products() {
                       withadd={true}
                     />
                   ))
-                : "No products" : <div className="centeredspin"><Spin  size="large"/></div>}
+                : "No products" }
             </div>
+            : <Spin  size="large"/>}
           </div>
         </div>
       </div>

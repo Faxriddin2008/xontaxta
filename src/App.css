@@ -794,7 +794,7 @@ footer div ul li{
   height: 400px;
   gap: 50px;
 }
-.user_data .part{
+.user_data .part , .user_data .partt{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -862,4 +862,10 @@ footer div ul li{
 .cards_clients div{
   border: 1px solid black;
 } */
+
+.update_delete{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   

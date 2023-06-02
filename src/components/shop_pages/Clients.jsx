@@ -10,7 +10,7 @@ import axios from "axios";
 import { getSales } from "./getSales";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Spin, Table } from "antd";
+import { Button, Spin, Table } from "antd";
 import { Navigate } from "../CheckingFunctions";
 function Clients() {
     let navigate = useNavigate()
@@ -56,7 +56,7 @@ function Clients() {
             title: "View",
             key: "view",
             render: (_, record) => (
-              <button onClick={() => navigate(`/shop/clients/view?&key=${record.id}`)}>View</button>
+              <Button onClick={() => navigate(`/shop/clients/view?&key=${record.id}`)}>View</Button>
             ),
           },
         
