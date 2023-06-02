@@ -63,6 +63,7 @@ function Clients() {
         
       ];
   const [clients, setClients] = useState([]);
+  const [clientsss, setClientsss] = useState([]);
   const [shunchaki, setShunchaki] = useState([]);
   const [load, setLoad] = useState(true);
   async function getClients() {
@@ -90,11 +91,14 @@ function Clients() {
     async function get() {
       const clientss = await getClients();
       setClients(clientss);
+      setClientsss(clientss);
       setLoad(false)
     }
     get();
   }, [shunchaki]);
   console.log(clients);
+
+  
 
   // let arr = JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).sales : [];
   // const [arrr, setArrr] = useState(arr);
@@ -108,6 +112,15 @@ function Clients() {
   //     const newArr = arr.filter(item => item.name.toLowerCase().includes(inputRef.current.value.toLowerCase()));
   //     setArrr(newArr.sort((a,b) => {return a.price - b.price}))
   // }
+  
+  function search() {
+    // console.log(clientsss);
+    const newArr = clients.filter((item) =>
+      item.username.toLowerCase().includes(inputRef.current.value.toLowerCase())
+    );
+    setClientsss(newArr);
+  }
+
   return (
     <div className="shop-page">
       <div>
@@ -128,6 +141,7 @@ function Clients() {
                 className="search"
                 placeholder="🔍 Qidirish"
                 ref={inputRef}
+                onKeyUp={search}
                 name=""
                 id=""
               />
@@ -139,7 +153,7 @@ function Clients() {
                 <Table
                   style={{ width: "1110px" }}
                   columns={ShopCardData()}
-                  dataSource={clients}
+                  dataSource={clientsss}
                 />
               )}
             </div>

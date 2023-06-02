@@ -5,15 +5,16 @@ import ShopNavBar from "./ShopNavBar";
 import chair from "../../assets/img/chair.png";
 import Product from "../shop_pages/Product_Pages/Product";
 import AddModal from "../shop_pages/AddModal";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getSales } from "./getSales";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { Spin, Table } from "antd";
 import { Navigate } from "../CheckingFunctions";
 import { getProductsFromFirebase } from "../firebase/GetProductsFromFirebase";
-import { DeleteModal, EditModal } from "./Product_Pages/Modal";
+import { DeleteModal } from "./Product_Pages/Modal";
+import EditModal from "./EditModal";
 function ClientsView() {
   const id = window.location.href.slice(
     window.location.href.search("&key=") + 5,
@@ -70,6 +71,11 @@ function ClientsView() {
     }
     get();
   }, []);
+let navigate = useNavigate()
+  async function deleteClient(key){
+    await deleteDoc(doc(db, `clients`, key))
+    navigate('/shop/clients')
+  }
   useEffect(() => {
     async function getProducts() {
       const products = await getProductsFromFirebase();
@@ -138,8 +144,8 @@ function ClientsView() {
                     <h2>{client.address}</h2>
                     {/* <button><Link to="https://www.instagram.com/abduvasiyev.f/">Send Message</Link></button> */}
                     <div className="update_delete">
-                    <AddModal/>
-                    <i className="bx bx-x-circle" style={{marginTop: "0px", marginLeft: "0px", position: "relative"}}></i>
+                    <EditModal setShunchaki={setShunchaki} keyy={id}/>
+                    <i onClick={() => deleteClient(id)} className="bx bx-x-circle" style={{cursor: "pointer", marginTop: "0px", marginLeft: "0px", position: "relative"}}></i>
                     </div>
                   </div>
                   

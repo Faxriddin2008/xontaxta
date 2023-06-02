@@ -222,7 +222,7 @@ function InBasket() {
     let now = `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
 
     try {
-      const docRef = await addDoc(collection(db, `${userEmail}.sales`), {
+      const docRef = await addDoc(collection(db, `${userEmail}.order`), {
         name: name,
         price: price,
         discount: discount,
@@ -230,6 +230,7 @@ function InBasket() {
         img: img,
         idd: idd,
         date: now,
+        status: ""
       });
       // console.log("Document written with ID: ", docRef.id);
       // message.success("Create product was successfully completed!")

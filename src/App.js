@@ -22,6 +22,7 @@ import { message } from 'antd';
 import { useEffect } from 'react';
 import Clients from './components/shop_pages/Clients';
 import ClientsView from './components/shop_pages/ClientsView';
+import Order from './components/shop_pages/Order';
 // import { useNavigate } from 'react-router-dom';
 
 function App() {
@@ -80,6 +81,7 @@ useEffect(() => {
           <Route exact path='/shop/details' element={<Details/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/products' element={<Products/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/sales' element={<Sales/>} errorElement={<NotFound/>}></Route>
+          <Route exact path='/shop/order' element={<Order/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/clients' element={<Clients/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/shop/clients/view' element={<ClientsView/>} errorElement={<NotFound/>}></Route>
           <Route exact path='/about' element={<About/>} errorElement={<NotFound/>}></Route>

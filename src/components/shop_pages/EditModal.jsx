@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import { Button, Modal, message } from "antd";
 import { Checkbox, Form, Input } from "antd";
 import InputMask from 'react-input-mask';
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const AddModal = ({setShunchaki}) => {
+const EditModal = ({setShunchaki, keyy}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  
   async function addClients(values){
     const {address, email, username, phone} = values;
     try {
-      const docRef = await addDoc(collection(db, "clients"), {
+      const docRef = await updateDoc(doc(db, "clients", keyy), {
         username: username,
         email: email,
         phone: phone,
         address: address,
       });
       // console.log("Document written with ID: ", docRef.id);
-      message.success("Create client was successfully completed!")
+      message.success("Update client was successfully completed!")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -59,17 +59,12 @@ const AddModal = ({setShunchaki}) => {
           gap: "5px",
         }}
       >
-        <img
-          src="https://cdn-icons-png.flaticon.com/128/3524/3524388.png"
-          width={"15px"}
-          height={"15px"}
-          alt=""
-        />{" "}
-        Add Client
+        {" "}
+        Update Client
       </Button>
       <Modal
         footer=""
-        title="Add Client"
+        title="Update Client"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -134,4 +129,4 @@ const AddModal = ({setShunchaki}) => {
   );
 };
 
-export default AddModal;
+export default EditModal;

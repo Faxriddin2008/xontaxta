@@ -9,13 +9,14 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { getSales } from "./getSales";
 import { Button, Spin, Table } from "antd";
-function Sales() {
+import { getOrder } from "./getOrder";
+function Order() {
     const [saless, setSaless] = useState([]);
     const [sales, setSales] = useState([]);
     const [load, setLoad] = useState(true);
   useEffect(() => {
     async function get() {
-      const saless = await getSales();
+      const saless = await getOrder();
       setSales(saless);
       setSaless(saless)
     }
@@ -142,4 +143,4 @@ function Sales() {
   );
 }
 
-export default Sales;
+export default Order;
