@@ -3,7 +3,7 @@ import { useState } from "react";
 import React, { Component } from "react";
 import { db } from "../firebase";
 import { Navigate } from "../CheckingFunctions";
-export async function getSales() {
+export async function getSales(email) {
   //   const querySnapshot = await getDocs(collection(db, "products"));
   //   return querySnapshot.docs.forEach((doc) => {
   //     return doc
@@ -12,7 +12,7 @@ export async function getSales() {
   const userEmail = user ? user.email : Navigate("/signup");
   // console.log(userEmail);
   const getProductsFromFirebase = [];
-  const products = await getDocs(collection(db, `${userEmail}.sales`));
+  const products = await getDocs(collection(db, `${email}.sales`));
   // console.log(products.docChanges());
   products.docChanges().forEach((item) => {
     getProductsFromFirebase.push({

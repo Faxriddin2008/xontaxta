@@ -37,15 +37,19 @@ function ClientsView() {
     return getClient.data();
   }
 
+
+
+
   useEffect(() => {
     async function get() {
       const clientt = await getClient();
       setClient(clientt);
-      setLoad(false);
     }
-    get();
-  }, [shunchaki]);
 
+    get();
+
+  }, [shunchaki]);
+  // console.log(client);
   // let arr = JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).sales : [];
   // const [arrr, setArrr] = useState(arr);
   // useEffect(() => {
@@ -65,12 +69,16 @@ function ClientsView() {
 
   const [sales, setSales] = useState([]);
   useEffect(() => {
+    // console.log(client.email);
     async function get() {
-      const saless = await getSales();
+      const saless = await getSales(client.email);
       setSales(saless);
+      setLoad(false);
+
     }
     get();
-  }, []);
+
+  }, [shunchaki]);
 let navigate = useNavigate()
   async function deleteClient(key){
     await deleteDoc(doc(db, `clients`, key))
@@ -78,7 +86,7 @@ let navigate = useNavigate()
   }
   useEffect(() => {
     async function getProducts() {
-      const products = await getProductsFromFirebase();
+      const products = await getProductsFromFirebase(client.email);
       // console.log(products);
       // const productss = query(
       //   collection(db, "fabduvasiyev@gmail.com.products"),
@@ -91,7 +99,7 @@ let navigate = useNavigate()
       setArrr(products);
     }
     getProducts();
-  }, []);
+  }, [shunchaki]);
   return (
     <div className="shop-page">
       <div>

@@ -14,7 +14,8 @@ export async function setState(values) {
           price: price,
           discount: discount,
           quantity: qty,
-          img: img
+          img: img,
+          time: new Date().getTime(),
         });
         // console.log("Document written with ID: ", docRef.id);
         message.success("Create product was successfully completed!")

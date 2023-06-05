@@ -92,18 +92,22 @@ function InBasket() {
       dataIndex: "tags",
       render: (_, record) => (
         <div>
+          {record.qty == 0 ? "" :
           <CloseOutlined onClick={() => remove(record.id, record.idd)}/>
+          }    
         </div>
       ),
     },
     {
-      title: "Buy",
+      title: "Placing an order",
       key: "tags",
       dataIndex: "tags",
       render: (_, record) => (
         <div>
+          {record.qty == 0 ? "" :
           <img src="https://cdn-icons-png.flaticon.com/128/190/190411.png" width={"30px"} height={"30px"} onClick={() => buy(record.id , record)} alt="" />
-        </div>
+          }
+          </div>
       ),
     },
   ];
@@ -138,7 +142,7 @@ function InBasket() {
     }else{
 
     }
-    setShunchaki(qty)
+    setShunchaki(new Date().getTime())
 
   }
   async function plusHandler(id, idd) {
@@ -192,7 +196,7 @@ function InBasket() {
         });
         // console.log();
       
-      setShunchaki(qty)
+      setShunchaki(new Date().getTime())
   
       }else{
         
@@ -212,7 +216,7 @@ function InBasket() {
     await updateDoc(washingtonReff, {
       quantity: productt.data().quantity + product.data().qty,      
     })
-    setShunchaki(qty)
+    setShunchaki(new Date().getTime())
   }
   async function buy(id,record){
     const {name, price, qty, img, idd, discount} = record;
@@ -239,7 +243,7 @@ function InBasket() {
     }
 
     await deleteDoc(doc(db, `${userEmail}.basket`, id))
-    setShunchaki(qty)
+    setShunchaki(new Date().getTime())
   }
   return (
     <div className="shop-page">
@@ -272,7 +276,7 @@ function InBasket() {
                 <Spin size="large" />
               ) : (
                 <Table style={{width: "1110px", marginLeft: "30px"}} columns={ShopCardData()} dataSource={basket} />
-              )}
+              )}  
             </div>
           </div>
         </div>

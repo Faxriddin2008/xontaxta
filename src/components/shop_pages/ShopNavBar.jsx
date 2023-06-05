@@ -5,11 +5,19 @@ import { handleClick } from '../CheckingFunctions';
 import { Content } from 'antd/es/layout/layout';
 import { Context } from '../..';
 import InBasket from '../shop_pages/Product_Pages/InBasket';
+import { getBasketProductsFromFirebase } from './getBasket';
 function ShopNavBar() {
     let userData = localStorage.getItem('userData')
     // let context = useContext(Context)
+    const [basket, setBasket] = useState([])
     // console.log(context);
-
+    useEffect(() => {
+        async function get() {
+          const products = await getBasketProductsFromFirebase();
+          setBasket(products);
+        }
+        get();
+      }, []);
     return ( 
         <div>
             <div className='shop-navbar'>
@@ -20,7 +28,8 @@ function ShopNavBar() {
                 <i className='bx bx-moon'></i>
                 <i className='bx bx-notification'></i>
                 <Link to={'/inbasket'}>
-                    <i className='bx bx-basket'></i>
+                    <i style={{color: "black", marginTop: "7px"}} className='bx bx-basket'></i>
+                    <sub style={{color: "black"}}>{basket.length}</sub>
                 </Link>
                 <Link to="/profile">
                     <img src={profile_photo} className='profile-photo' alt="" />

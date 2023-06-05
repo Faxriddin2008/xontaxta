@@ -8,20 +8,21 @@ import AddModal from "../shop_pages/Product_Pages/Modal";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { getSales } from "./getSales";
-import { Button, Spin, Table } from "antd";
+import { Button, Select, Spin, Table } from "antd";
 import { getOrder } from "./getOrder";
 function Order() {
-    const [saless, setSaless] = useState([]);
-    const [sales, setSales] = useState([]);
-    const [load, setLoad] = useState(true);
+  const provinceData = [ "Kutilmoqda" , "Rad etildi", "Sotildi"];
+  const [saless, setSaless] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [load, setLoad] = useState(true);
   useEffect(() => {
     async function get() {
       const saless = await getOrder();
       setSales(saless);
-      setSaless(saless)
+      setSaless(saless);
     }
     get();
-    setLoad(false)
+    setLoad(false);
   }, [load]);
   console.log(sales);
   // let arr = JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).sales : [];
@@ -36,15 +37,16 @@ function Order() {
   //     const newArr = arr.filter(item => item.name.toLowerCase().includes(inputRef.current.value.toLowerCase()));
   //     setArrr(newArr.sort((a,b) => {return a.price - b.price}))
   // }
-
-
+  function setStatus(value){
+    console.log(value);
+  }
   const ShopCardData = () => [
     {
       title: "Product img",
       dataIndex: "img",
       key: "img",
       render: (_, record) => (
-        <p >
+        <p>
           <img src={record.img} className="inbasket_img" alt="" />
         </p>
       ),
@@ -53,12 +55,7 @@ function Order() {
       title: "Product name",
       dataIndex: "name",
       key: "name",
-      render: (_, record) => (
-        <p>
-
-          {record.name}
-        </p>
-      ),
+      render: (_, record) => <p>{record.name}</p>,
     },
     {
       title: "Price",
@@ -67,29 +64,41 @@ function Order() {
       render: (_, record) => <p>{record.price} USD</p>,
     },
     {
-        title: "Discount price",
-        dataIndex: "price",
-        key: "price",
-        render: (_, record) => <p>{(record.price - (record.price * record.discount) / 100)} USD</p>,
-      },
+      title: "Discounted price",
+      dataIndex: "price",
+      key: "price",
+      render: (_, record) => (
+        <p>{record.price - (record.price * record.discount) / 100} USD</p>
+      ),
+    },
     {
-        title: "Discount",
-        dataIndex: "discount",
-        key: "discount",
-        render: (_, record) => <p>{record.discount}%</p>,
-      },
+      title: "Discount",
+      dataIndex: "discount",
+      key: "discount",
+      render: (_, record) => <p>{record.discount}%</p>,
+    },
     {
       title: "Quantity",
       key: "quantity",
+      render: (_, record) => <p>{record.qty}</p>,
+    },
+    {
+      title: "Status",
+      key: "quantity",
       render: (_, record) => (
-        <p>
-          {record.qty}
-        </p>
+        <Select
+          onChange={(value) => setStatus(value)}
+          defaultValue={provinceData[0]}
+          style={{
+            width: 120,
+          }}
+          options={provinceData.map((province) => ({
+            label: province,
+            value: province,
+          }))}
+        />
       ),
     },
-    
-    
-    
   ];
   return (
     <div className="shop-page">
@@ -100,7 +109,7 @@ function Order() {
         <ShopNavBar />
         <div className="products">
           <div className="articles">
-            <h1>Sotib olinganlar</h1>
+            <h1>Buyurtmalar</h1>
             <button>
               <NavLink to="/shop/products">Mahsulotlar ro'yxati</NavLink>
             </button>
@@ -129,7 +138,11 @@ function Order() {
                   <Spin size="large" />
                 ) : (
                   <Table
-                    style={{ width: "1110px", marginLeft: "30px" , marginTop: "-10px"}}
+                    style={{
+                      width: "1110px",
+                      marginLeft: "30px",
+                      marginTop: "-10px",
+                    }}
                     columns={ShopCardData()}
                     dataSource={sales}
                   />

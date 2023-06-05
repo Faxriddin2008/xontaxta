@@ -66,11 +66,17 @@ function Sales() {
       render: (_, record) => <p>{record.price} USD</p>,
     },
     {
-        title: "Discount price",
+        title: "Discounted price",
         dataIndex: "price",
         key: "price",
         render: (_, record) => <p>{(record.price - (record.price * record.discount) / 100)} USD</p>,
-      },
+    },
+    {
+      title: "Total price",
+      dataIndex: "price",
+      key: "price",
+      render: (_, record) => <p>{(record.price - (record.price * record.discount) / 100) * record.qty} USD</p>,
+    },
     {
         title: "Discount",
         dataIndex: "discount",

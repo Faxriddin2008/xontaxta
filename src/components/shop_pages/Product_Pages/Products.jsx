@@ -28,16 +28,19 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import NotFound from "../../main_pages/NotFound";
+import { Navigate } from "../../CheckingFunctions";
 // const OPTIONS = ["Apples", "Nails", "Bananas", "Helicopters"];
 const provinceData = ["All", "Stol", "Kreslo", "Devan", "Shkaf", "Xontaxta"];
 function Products() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user ? user.email : Navigate("/signup");
   const [selectedItems, setSelectedItems] = useState([]);
   const [arrr, setArrr] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([])
   const [load, setLoad] = useState(true);
   useEffect(() => {
     async function getProducts() {
-      const products = await getProductsFromFirebase();
+      const products = await getProductsFromFirebase(userEmail);
       // console.log(products);
       // const productss = query(
       //   collection(db, "fabduvasiyev@gmail.com.products"),

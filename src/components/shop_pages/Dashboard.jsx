@@ -12,7 +12,7 @@ import logo from "../../assets/img/logo.jpg"
                   <li><i className='bx bxs-basket' ></i><NavLink to="/shop/clients">Mijozlar</NavLink></li>
                   <li><i className='bx bxs-battery-charging' ></i><NavLink to="/shop/sales">Sotuvlar</NavLink></li>
                   <li><i className='bx bxs-basket' ></i><NavLink to="/shop/dashboard">Toifa</NavLink></li>
-                  <li><i className='bx bxs-basket' ></i><NavLink to="/shop/dashboard">Yetkazib berish</NavLink></li>
+                  <li><i className='bx bxs-basket' ></i><NavLink to="/shop/dashboard">Yetkazib beruvchilar</NavLink></li>
                   <li><i className='bx bxs-battery-charging' ></i><NavLink to="/shop/order">Buyurtma</NavLink></li>
                   <li><i className='bx bxs-basket' ></i><NavLink to="/shop/dashboard">Kuponlar</NavLink></li>
                </ul>

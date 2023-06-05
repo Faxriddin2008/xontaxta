@@ -44,6 +44,7 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
     // const basket = await getBasketProductsFromFirebase()
     // console.log(basket);
     //   console.log(basket);
+    console.log(basket);
     const filter = basket.filter((item) => item.idd == keyy)[0];
     console.log(filter);
     let now = `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
@@ -96,7 +97,7 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
       await updateDoc(washingtonReff, {
         quantity:  qtyyy  - 1,
       })}else {
-
+        
       }
       // console.log();
     }
