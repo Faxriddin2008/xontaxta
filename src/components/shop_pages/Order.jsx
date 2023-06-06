@@ -8,10 +8,13 @@ import AddModal from "../shop_pages/Product_Pages/Modal";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { getSales } from "./getSales";
-import { Button, Select, Spin, Table } from "antd";
+import { Button, Dropdown, Select, Spin, Table } from "antd";
 import { getOrder } from "./getOrder";
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { Navigate } from "../CheckingFunctions";
 function Order() {
-  const provinceData = [ "Kutilmoqda" , "Rad etildi", "Sotildi"];
+  const provinceData = ["Kutilmoqda", "Rad etildi", "Sotildi"];
   const [saless, setSaless] = useState([]);
   const [sales, setSales] = useState([]);
   const [load, setLoad] = useState(true);
@@ -20,9 +23,10 @@ function Order() {
       const saless = await getOrder();
       setSales(saless);
       setSaless(saless);
+      setLoad(false);
+
     }
     get();
-    setLoad(false);
   }, [load]);
   console.log(sales);
   // let arr = JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).sales : [];
@@ -37,9 +41,56 @@ function Order() {
   //     const newArr = arr.filter(item => item.name.toLowerCase().includes(inputRef.current.value.toLowerCase()));
   //     setArrr(newArr.sort((a,b) => {return a.price - b.price}))
   // }
-  function setStatus(value){
-    console.log(value);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user ? user.email : Navigate("/signup");
+  async function setStatus(value, id, data) {
+    await updateDoc(doc(db, `${userEmail}.order`, id), {
+      status: value,
+    });
+
+    if(value == "Sotildi"){
+      await deleteDoc(doc(db, `${userEmail}.order`, id))
+
+      await addDoc(collection(db, `${userEmail}.sales`), {
+        ...data,
+        status: value,
+        time: new Date().getTime()
+      })
+      setLoad(true)
+    }else{
+
+    }
+
   }
+
+  
+  const items = [
+    {
+      key: '1',
+      label: (
+        <p onClick={() => setStatus("Kutilmoqda")}>
+          Kutilmoqda
+        </p>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+          2nd menu item
+        </a>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+          3rd menu item
+        </a>
+      ),
+    },
+  ];
+
   const ShopCardData = () => [
     {
       title: "Product img",
@@ -87,7 +138,7 @@ function Order() {
       key: "quantity",
       render: (_, record) => (
         <Select
-          onChange={(value) => setStatus(value)}
+          onChange={(value) => setStatus(value, record.id, record)}
           defaultValue={provinceData[0]}
           style={{
             width: 120,
@@ -97,6 +148,7 @@ function Order() {
             value: province,
           }))}
         />
+        
       ),
     },
   ];
@@ -144,7 +196,7 @@ function Order() {
                       marginTop: "-10px",
                     }}
                     columns={ShopCardData()}
-                    dataSource={sales}
+                    dataSource={saless}
                   />
                 )}
               </div>

@@ -6,10 +6,12 @@ import { Content } from 'antd/es/layout/layout';
 import { Context } from '../..';
 import InBasket from '../shop_pages/Product_Pages/InBasket';
 import { getBasketProductsFromFirebase } from './getBasket';
+import { Spin } from 'antd';
 function ShopNavBar() {
     let userData = localStorage.getItem('userData')
     // let context = useContext(Context)
     const [basket, setBasket] = useState([])
+    const [load, setLoad] = useState(true)
     // console.log(context);
     useEffect(() => {
         async function get() {
@@ -17,7 +19,8 @@ function ShopNavBar() {
           setBasket(products);
         }
         get();
-      }, []);
+        setLoad(false)
+      }, [load]);
     return ( 
         <div>
             <div className='shop-navbar'>

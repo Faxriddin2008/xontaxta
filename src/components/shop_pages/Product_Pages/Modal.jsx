@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { InputMaskOptions } from "antd-mask-input/build/main/lib/MaskedInput";
 import React from "react";
 import setState from "./setProducts";
+import chair from "../../../assets/img/chair.png";
 import isModalVisible from "../../CheckingFunctions/CheckModalOpen";
 import { Button, Modal, Checkbox, Form, Input, message, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,8 +38,10 @@ export default function AddModal() {
   }, [selectedImage])
   function downloader(params) {
     const storage = getStorage();
+    console.log(selectedImage);
     return getDownloadURL(ref(storage,  `images/${selectedImage}`))
       .then((url) => {
+        console.log(url);
         setSelectedImageUrl(url)
       })
       .catch((error) => {
@@ -52,7 +55,8 @@ export default function AddModal() {
       setState({
         ...values,
         price: +values.price,
-        img: selectedImageUrl  != "" ? selectedImageUrl : "",
+        imgUrl: selectedImageUrl  != "" ? selectedImageUrl : "",
+        img: `images/${selectedImage}`
       });
       // setIsModalOpen(false);
       navigate("/shop/products");
@@ -77,7 +81,7 @@ export default function AddModal() {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-    Navigate('/shop/products')
+    navigate('/shop/products')
   };
   isModalVisible({ isModalOpen });
   // console.log(selectedImage);
@@ -167,6 +171,7 @@ export default function AddModal() {
           <Input allowClear type="number" addonAfter={<i className="bx bx-star"></i>}/>
         </Form.Item>
         {/* <Form.Item> */}
+        <Form.Item>
         <input
           type="file"
           onChange={(event) => {
@@ -174,6 +179,7 @@ export default function AddModal() {
             setSelectedImage(event.target.files[0].name);
           }}
         />
+        </Form.Item>
         {/* <button onClick={downloader}>OK</button> */}
         {/* </Form.Item> */}
         
@@ -193,13 +199,13 @@ export default function AddModal() {
 
             onFinishFailed={onFinishFailed}
           >
-            Submit
+            Create
           </Button>
           <Button
             type="primary"
             htmlType="submit"
             // style={{marginLeft: "-60px", position: 'absolute'}}
-            onOk={handleCancel}
+            onClick={() => navigate("/shop/products")}
             
           >
             Cancel
@@ -214,6 +220,8 @@ export default function AddModal() {
 
 export function EditModal({ open, setOpen, data, showModal, keyyy }) {
   const [state, setState] = useState({});
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
   const { name, price, discount, qty, rating } = data;
@@ -222,7 +230,7 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
     // let userData = JSON.parse(localStorage.getItem("userData"));
     // let products = JSON.parse(localStorage.getItem("userData")).products;
     // console.log(keyyy);
-    EditProduct({ ...values, key: keyyy });
+    EditProduct({ ...values, key: keyyy, img: selectedImage ? selectedImage : "", imgUrl: selectedImage ? selectedImageUrl : chair});
 
     // products[key] = values;
     handleOk();
@@ -243,15 +251,44 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
     console.log("Clicked cancel button");
     setOpen(false);
   };
+  function imgUploader(file) {
+    console.log(file[0].name);
+    const storage = getStorage();
+    const storageRef = ref(storage, `images/${file[0].name}`);
+  
+    uploadBytes(storageRef, file[0]).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      // downloader()
 
+    });
+  }
+  useEffect(() => {
+    downloader()
+  }, [selectedImage])
+  function downloader(params) {
+    const storage = getStorage();
+    console.log(selectedImage);
+    return getDownloadURL(ref(storage,  `images/${selectedImage}`))
+      .then((url) => {
+        console.log(url);
+        setSelectedImageUrl(url)
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+  }
   return (
     <>
-      <i onClick={showModal} className="bx bx-edit"></i>
-
+      
+        <i onClick={() => setOpen(true)} style={{cursor: "pointer"}} className="bx bx-edit"></i> 
+        
+      
+      {/* <p>Edit</p> */}
       <Modal
         title="Edit product"
         open={open}
         onOk={handleOk}
+        footer={""}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
@@ -336,15 +373,18 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
           >
             <Input allowClear />
           </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          ></Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" onFinish={onFinish}>
-              Submit
+        <input
+          type="file"
+          onChange={(event) => {
+            imgUploader(event.target.files)
+            setSelectedImage(event.target.files[0].name);
+          }}
+        />
+        </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit"  onFinish={onFinish}>
+              Edit
             </Button>
           </Form.Item>
         </Form>
@@ -378,6 +418,7 @@ export const DeleteModal = (keyy) => {
         <i
           className="bx bx-x-circle"
         ></i>
+        Delete product
       </Button>
   
   );

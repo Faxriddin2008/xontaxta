@@ -9,32 +9,34 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { getSales } from "./getSales";
 import { Button, Spin, Table } from "antd";
+import { Navigate } from "../CheckingFunctions";
 function Sales() {
-    const [saless, setSaless] = useState([]);
+    const [salesss, setSalesss] = useState([]);
     const [sales, setSales] = useState([]);
     const [load, setLoad] = useState(true);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userEmail = user ? user.email : Navigate("/signup");
   useEffect(() => {
     async function get() {
-      const saless = await getSales();
+      const saless = await getSales(userEmail);
       setSales(saless);
-      setSaless(saless)
+      setSalesss(saless)
     }
     get();
     setLoad(false)
   }, [load]);
-  console.log(sales);
   // let arr = JSON.parse(localStorage.getItem('userData')) ? JSON.parse(localStorage.getItem('userData')).sales : [];
   // const [arrr, setArrr] = useState(arr);
   // useEffect(() => {
   //         arrr.map((item, i) => <Product  img={item.img} price={item.price} name={item.name} discount={item.discount}/>)
   // }, [arrr])
-  const url = "https://reqres.in/api/users?page=1";
+  // const url = "https://reqres.in/api/users?page=1";
   // axios(url).then(res => console.log(res.data.data))
   const inputRef = useRef(null);
-  // function search(){
-  //     const newArr = arr.filter(item => item.name.toLowerCase().includes(inputRef.current.value.toLowerCase()));
-  //     setArrr(newArr.sort((a,b) => {return a.price - b.price}))
-  // }
+  function search(){
+      const newArr = sales.filter(item => item.name.toLowerCase().includes(inputRef.current.value.toLowerCase()));
+      setSalesss(newArr)
+  }
 
 
   const ShopCardData = () => [
@@ -117,6 +119,7 @@ function Sales() {
                 className="search"
                 placeholder="🔍 Qidirish"
                 ref={inputRef}
+                onChange={search}
                 name=""
                 id=""
               />
@@ -130,15 +133,15 @@ function Sales() {
             </div>
             <div className="cards">
               <div className="cards_clients">
-                {load == true ? (
+                {load == true ? 
                   <Spin size="large" />
-                ) : (
+                 : 
                   <Table
                     style={{ width: "1110px", marginLeft: "30px" , marginTop: "-10px"}}
                     columns={ShopCardData()}
-                    dataSource={sales}
+                    dataSource={salesss}
                   />
-                )}
+                }
               </div>
             </div>
           </div>

@@ -9,7 +9,7 @@ import { getBasketProductsFromFirebase } from "../../shop_pages/getBasket";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Navigate } from "../../CheckingFunctions";
-function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
+function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, withadd }) {
   const [products, setProducts] = useState();
   const [shunchaki, setShunchaki] = useState();
   const [basket, setBasket] = useState([]);
@@ -28,7 +28,7 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
     // const washingtonReff = doc(db, `${userEmail}.products`, keyy);
     //     const productt = await getDoc(washingtonReff);
     //     const qtyyy = productt.data().quantity;
-    const { name, rating, qtyy, discount, keyy, img, price } = values;
+    const { name, rating, qtyy, discount, keyy, imgUrl, price } = values;
     
     const user = JSON.parse(localStorage.getItem("user"));
     const userEmail = user ? user.email : Navigate("/signup");
@@ -55,7 +55,7 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
           price: price,
           discount: discount,
           qty: qtyy,
-          img: img,
+          img: imgUrl,
           idd: keyy,
           date: now,
         });
@@ -101,18 +101,22 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
       }
       // console.log();
     }
+
+    setLoad(false)
     // console.log(keyy);
   }
 
   // console.log(basket);
   function setToBasket() {
+    setLoad(true)
+
     SetBasket({
       name,
       rating,
       qtyy,
       discount,
       keyy,
-      img,
+      imgUrl,
       price,
       products,
       setProducts,
@@ -129,7 +133,7 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
         to={withadd == true ? `/shop/details?&key=${keyy}` : ""}
         style={{ textDecoration: "none" }}
       >
-        <img src={img} alt="" />
+        <img src={imgUrl} alt="" />
       </NavLink>
 
       <div>
@@ -153,3 +157,8 @@ function Product({ name, rating, qty, discount, keyy, img, price, withadd }) {
 }
 
 export default Product;
+
+
+// 1. basketdagi xatoliklar ✅ 
+// 2. orderdagi statuslar 
+// 3. UI

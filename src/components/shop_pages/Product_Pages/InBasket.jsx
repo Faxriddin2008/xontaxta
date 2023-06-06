@@ -9,10 +9,12 @@ import { getBasketProductsFromFirebase } from "../../shop_pages/getBasket";
 import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Navigate } from "../../CheckingFunctions";
+import { getOrder } from "../getOrder";
 function InBasket() {
   const [load, setLoad] = useState(true);
   const [shunchaki, setShunchaki] = useState(0);
   const [basket, setBasket] = useState([]);
+  const [order, setOrder] = useState([]);
   const inputRef = useRef(null);
   function search() {}
   useEffect(() => {
@@ -112,6 +114,7 @@ function InBasket() {
     },
   ];
   async function minusHandler(id, idd) {
+    setLoad(true)
     // console.log(id);
     const user = JSON.parse(localStorage.getItem("user"));
     const userEmail = user ? user.email : Navigate("/signup");
@@ -143,27 +146,10 @@ function InBasket() {
 
     }
     setShunchaki(new Date().getTime())
-
+    setLoad(false)
   }
   async function plusHandler(id, idd) {
-    
-    // console.log(id);
-    // const user = JSON.parse(localStorage.getItem("user"));
-    // const userEmail = user ? user.email : Navigate("/signup");
-    // const washingtonRef = doc(db, `${userEmail}.basket`, id);
-    // const product = await getDoc(washingtonRef);
-    // const qty = product.data().qty
-    // // console.log(product.data());
-    // // Set the "capital" field of the city 'DC'
-    
-    //   await updateDoc(washingtonRef, {
-    //     qty:  qty  + 1,
-    //   });
-    
-
-    
-    // setShunchaki(qty)
-
+    setLoad(true)
     const user = JSON.parse(localStorage.getItem("user"));
     const userEmail = user ? user.email : Navigate("/signup");
     const washingtonRef = doc(db, `${userEmail}.basket`, id);
@@ -173,34 +159,23 @@ function InBasket() {
     const productt = await getDoc(washingtonReff);
     const qtyy = productt.data().quantity
     console.log(productt.data());
-    // console.log(product.data());
-    // Set the "capital" field of the city 'DC'
-    
       if(qtyy != 0){
         await updateDoc(washingtonRef, {
           qty:  qty  + 1,
         });
-      
-        // if(qtyy - 1 == 0){
-        //   await deleteDoc(washingtonReff)
-        // }else{
-  
-        // }
-      // const user = JSON.parse(localStorage.getItem("user"));
-      // const userEmail = user ? user.email : Navigate("/signup");
-      
-      // Set the "capital" field of the city 'DC'
+
       
         await updateDoc(washingtonReff, {
           quantity:  qtyy  - 1,
         });
-        // console.log();
+
       
       setShunchaki(new Date().getTime())
   
       }else{
         
       }
+      setLoad(false)
   }
   async function remove(id, idd){
     const user = JSON.parse(localStorage.getItem("user"));
@@ -218,13 +193,24 @@ function InBasket() {
     })
     setShunchaki(new Date().getTime())
   }
+  useEffect(() => {
+    async function get() {
+      const saless = await getOrder();
+      setOrder(saless);
+    
+    }
+    get();
+    
+  }, []);
+
   async function buy(id,record){
     const {name, price, qty, img, idd, discount} = record;
     const user = JSON.parse(localStorage.getItem("user"));
     const userEmail = user ? user.email : Navigate("/signup");
 
     let now = `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
-
+    const filter = order.filter(item => item.idd == idd)
+    console.log(filter);
     try {
       const docRef = await addDoc(collection(db, `${userEmail}.order`), {
         name: name,
@@ -234,7 +220,7 @@ function InBasket() {
         img: img,
         idd: idd,
         date: now,
-        status: ""
+        status: "Kutilmoqda"
       });
       // console.log("Document written with ID: ", docRef.id);
       // message.success("Create product was successfully completed!")

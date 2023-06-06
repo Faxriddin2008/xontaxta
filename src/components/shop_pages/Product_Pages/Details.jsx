@@ -60,7 +60,7 @@ const key = locationn.slice(locationn.search("&key="), locationn.length);
         {load == true ? <Spin size="large"/> :
             productObject == undefined ? "No data found!" : 
             <div className="card">
-          <img src={productObject.img ? productObject.img : chair} alt="" />
+          <img src={productObject.imgUrl ? productObject.imgUrl : chair} alt="" />
           <div className="about_this_card">
             <div>
               <h1>{productObject.name}</h1>

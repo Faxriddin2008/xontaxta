@@ -715,14 +715,16 @@ footer div ul li{
 }
 .bx-edit{
   font-size: 30px;
-  margin-left: 550px;
+  margin-left: 555px;
   margin-top: 15px;
   position: absolute;
 }
 .delete_modal_wrapper{
-  margin-left: 500px;
+  margin-left: 380px;
   margin-top: 15px;
   position: absolute;
+  width: 160px;
+  gap: 10px;
 }
 .bx-x-circle{
   display: flex;
@@ -732,8 +734,8 @@ footer div ul li{
   width: 50px;
   height: 50px;
   margin-left: -25px;
-  margin-top: -25px;
-  
+  margin-top: -15px;
+  gap: 10px;
   position: absolute;
 }
 .inbasket{

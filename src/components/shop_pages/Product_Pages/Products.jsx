@@ -143,10 +143,11 @@ function Products() {
               { arrr.length != 0
                 ? arrr.map((item, i) => (
                     <Product
+                      setLoad={setLoad}
                       name={item.name}
                       keyy={item.id}
                       price={item.price}
-                      img={item.img  ? item.img : chair }
+                      imgUrl={item.imgUrl  ? item.imgUrl : chair }
                       discount={item.discount}
                       rating={item.rating}
                       qty={item.quantity}
