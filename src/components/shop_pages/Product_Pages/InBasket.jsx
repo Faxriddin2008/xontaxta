@@ -107,7 +107,7 @@ function InBasket() {
       render: (_, record) => (
         <div>
           {record.qty == 0 ? "" :
-          <img src="https://cdn-icons-png.flaticon.com/128/190/190411.png" width={"30px"} height={"30px"} onClick={() => buy(record.id , record)} alt="" />
+          <img src="https://cdn-icons-png.flaticon.com/128/190/190411.png" style={{cursor: "pointer"}} width={"30px"} height={"30px"} onClick={() => buy(record.id , record)} alt="" />
           }
           </div>
       ),
@@ -135,7 +135,7 @@ function InBasket() {
     const washingtonReff = doc(db, `${userEmail}.products`, idd);
     const productt = await getDoc(washingtonReff);
     const qtyy = productt.data().quantity
-    console.log(productt.data());
+    // console.log(productt.data());
     // Set the "capital" field of the city 'DC'
     
       await updateDoc(washingtonReff, {
@@ -204,32 +204,46 @@ function InBasket() {
   }, []);
 
   async function buy(id,record){
+    setLoad(true)
     const {name, price, qty, img, idd, discount} = record;
     const user = JSON.parse(localStorage.getItem("user"));
     const userEmail = user ? user.email : Navigate("/signup");
 
+    // const filter = order.filter(item => item.idd == id)
+
     let now = `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
     const filter = order.filter(item => item.idd == idd)
     console.log(filter);
-    try {
-      const docRef = await addDoc(collection(db, `${userEmail}.order`), {
-        name: name,
-        price: price,
-        discount: discount,
-        qty: qty,
-        img: img,
-        idd: idd,
-        date: now,
-        status: "Kutilmoqda"
-      });
-      // console.log("Document written with ID: ", docRef.id);
-      // message.success("Create product was successfully completed!")
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
 
-    await deleteDoc(doc(db, `${userEmail}.basket`, id))
-    setShunchaki(new Date().getTime())
+    if(filter.length == 0){
+
+      try {
+        const docRef = await addDoc(collection(db, `${userEmail}.order`), {
+          name: name,
+          price: price,
+          discount: discount,
+          qty: qty,
+          img: img,
+          idd: idd,
+          date: now,
+          status: "Kutilmoqda"
+        });
+        // console.log("Document written with ID: ", docRef.id);
+        // message.success("Create product was successfully completed!")
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+  
+      await deleteDoc(doc(db, `${userEmail}.basket`, id))
+      setShunchaki(new Date().getTime())
+    }else{
+      await updateDoc(doc(db, `${userEmail}.order`, filter[0].id), {
+        qty: filter[0].qty + qty,
+      })
+      await deleteDoc(doc(db, `${userEmail}.basket`, id))
+      setShunchaki(new Date().getTime())
+    }
+    
   }
   return (
     <div className="shop-page">

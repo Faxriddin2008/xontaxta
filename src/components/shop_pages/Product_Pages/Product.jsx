@@ -25,6 +25,7 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
   }, [shunchaki]);
 
   async function SetBasket(values) {
+    setLoad(true)
     // const washingtonReff = doc(db, `${userEmail}.products`, keyy);
     //     const productt = await getDoc(washingtonReff);
     //     const qtyyy = productt.data().quantity;
@@ -35,7 +36,7 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
     const washingtonReff = doc(db, `${userEmail}.products`, keyy);
     const productt = await getDoc(washingtonReff);
     const qtyyy = productt.data().quantity;
-    console.log(productt.data());
+    // console.log(productt.data());
     // const filtered = basket.filter(item => item.name == "Stul")
     // console.log(filtered);
     // console.log(values);
@@ -44,9 +45,9 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
     // const basket = await getBasketProductsFromFirebase()
     // console.log(basket);
     //   console.log(basket);
-    console.log(basket);
+    // console.log(basket);
     const filter = basket.filter((item) => item.idd == keyy)[0];
-    console.log(filter);
+    // console.log(filter);
     let now = `${new Date().getDate()}.${new Date().getMonth() + 1}.${new Date().getFullYear()}`
     if (!filter || !basket) {
       try {
@@ -87,11 +88,11 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
       await updateDoc(washingtonRef, {
         qty: filter.qty + 1,
       });
-      console.log("2");
+      // console.log("2");
       setShunchaki(qtyyy)
 
 
-    console.log(productt.data());
+    // console.log(productt.data());
     // Set the "capital" field of the city 'DC'
     
       await updateDoc(washingtonReff, {
@@ -108,7 +109,6 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
 
   // console.log(basket);
   function setToBasket() {
-    setLoad(true)
 
     SetBasket({
       name,
@@ -124,11 +124,13 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
       setBasket,
     });
     setQtyy(qtyy + 1);
+    // setLoad(true)
+
   }
   // console.log(img, price);
   return (
     <div className="product_chair" key={keyy}>
-      {discount ? <p>{discount}</p> : ""}
+      {discount ? <p>{discount} %</p> : ""}
       <NavLink
         to={withadd == true ? `/shop/details?&key=${keyy}` : ""}
         style={{ textDecoration: "none" }}
@@ -142,8 +144,8 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
         </h2>
 
         <div>
-          <h1>{name}</h1>
-          <h3>{price}</h3>
+          <h1>{name} ({qty})</h1>
+          <h3>{price} USD</h3>
         </div>
 
         {withadd == true ? (

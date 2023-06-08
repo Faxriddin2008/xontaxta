@@ -4,7 +4,7 @@ import { message } from "antd";
 import { Navigate } from "../../CheckingFunctions";
 
 export async function setState(values) {
-    const {name, price, discount, qty, imgUrl, img} = values;
+    const {name, price, discount, qty, imgUrl, img, rating} = values;
     console.log(values, "values");
     const user = JSON.parse(localStorage.getItem("user"))
     const userEmail = user ? user.email : Navigate("/signup") 
@@ -16,6 +16,7 @@ export async function setState(values) {
           quantity: qty,
           img: img,
           imgUrl: imgUrl,
+          rating: rating,
           time: new Date().getTime(),
         });
         // console.log("Document written with ID: ", docRef.id);

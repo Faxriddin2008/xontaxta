@@ -55,7 +55,7 @@ function Products() {
       setLoad(false)
     }
     getProducts();
-  }, []);
+  }, [load]);
   // const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 
   function filterHandler(key) {
@@ -84,6 +84,11 @@ function Products() {
     // const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   // console.log(arrr[2]);
   let navigate = useNavigate();
+
+  function lastAdded(){
+    // const filter = filteredProducts.filter(item => item.time > new Date().getTime() - 3600000)
+    // setArrr(filter) 
+  }
   return (
     <div className="shop-page">
       <div>
@@ -135,7 +140,7 @@ function Products() {
                     }))}
                   />
                 {/* </button> */}
-                <button>Oxirgi qo'shilganlar</button>
+                <button onClick={lastAdded}>Oxirgi qo'shilganlar</button>
               </div>
             </div>
             {load == false ? 

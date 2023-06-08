@@ -4,6 +4,8 @@ import logo from "../../assets/img/logo.jpg";
 import { useContext, useRef } from "react";
 import { Context } from "../..";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
+
 import { toast } from "react-toastify";
 import { initial_values } from "../../auth";
 
@@ -51,6 +53,7 @@ const SignIn = () => {
     <div className="form_signin centered">
       <Form
         name="basic"
+        
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         className="centered"
@@ -58,14 +61,16 @@ const SignIn = () => {
         
         style={{ flexDirection: "column", margin: "auto" }}
         initialValues={{ remember: true }}
+        
         autoComplete="off"
       >
         <div className="signin_form">
           <img
-            src={logo}
+            src={"https://cdn-icons-png.flaticon.com/128/1698/1698771.png"}
             alt=""
-            width="100%"
-            style={{ marginBottom: 20 + "px" }}
+            width="200px"
+            height={"100px"}
+            style={{ marginBottom: 20 + "px", objectFit: "cover" }}
           />
 
           
@@ -74,14 +79,14 @@ const SignIn = () => {
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input ref={emailRef} allowClear />
+            <Input ref={emailRef} prefix={<MailOutlined className="site-form-item-icon" />} allowClear />
           </Form.Item>
           <Form.Item
             label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password ref={passwordRef} allowClear />
+            <Input.Password ref={passwordRef} allowClear prefix={<LockOutlined className="site-form-item-icon" />} />
           </Form.Item>
           <Form.Item>
             Don't have an account? <Link to={"/signup"}>Sign Up</Link>

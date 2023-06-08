@@ -14,6 +14,8 @@ import { Space } from "antd";
 import DeleteProduct from "./DeleteProduct";
 import { Navigate } from "../../CheckingFunctions";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 export default function AddModal() {
   let navigate = useNavigate();
 
@@ -218,19 +220,31 @@ export default function AddModal() {
   );
 }
 
-export function EditModal({ open, setOpen, data, showModal, keyyy }) {
+export  function EditModal({ open, setOpen, data, showModal, keyyy }) {
   const [state, setState] = useState({});
+  const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
   const { name, price, discount, qty, rating } = data;
   let navigate = useNavigate();
+
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user ? user.email : Navigate("/signup");
+  const productRef = doc(db, `${userEmail}.products`, keyyy);
+  
+  useEffect(() => {
+    async function get(){
+      const product = await getDoc(productRef)
+      setProduct(product.data())
+    }
+    get()
+  }, [])
+  // console.log(product);
   function onFinish(values) {
-    // let userData = JSON.parse(localStorage.getItem("userData"));
-    // let products = JSON.parse(localStorage.getItem("userData")).products;
-    // console.log(keyyy);
-    EditProduct({ ...values, key: keyyy, img: selectedImage ? selectedImage : "", imgUrl: selectedImage ? selectedImageUrl : chair});
+    EditProduct({ ...values, key: keyyy, img: selectedImage ? selectedImage : product.img, imgUrl: selectedImage ? selectedImageUrl : product.imgUrl});
 
     // products[key] = values;
     handleOk();
@@ -304,7 +318,11 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
             maxWidth: 600,
           }}
           initialValues={{
-            remember: true,
+            name: product.name,
+            price: product.price,
+            discount: product.discount,
+            qty: product.quantity,
+            rating: product.rating,
           }}
           onFinish={onFinish}
           // onFinishFailed={onFinishFailed}
@@ -314,14 +332,15 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
             label="Product name"
             name="name"
             allowClear
+            
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input product name!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input  allowClear />
           </Form.Item>
 
           <Form.Item
@@ -329,12 +348,12 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
             name="price"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input price!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input allowClear  />
           </Form.Item>
 
           <Form.Item
@@ -342,36 +361,36 @@ export function EditModal({ open, setOpen, data, showModal, keyyy }) {
             name="discount"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input discount!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input allowClear  />
           </Form.Item>
           <Form.Item
             label="Quantity"
             name="qty"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input quantity!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input allowClear  />
           </Form.Item>
           <Form.Item
             label="Rating"
             name="rating"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input rating!",
               },
             ]}
           >
-            <Input allowClear />
+            <Input allowClear  />
           </Form.Item>
           <Form.Item>
         <input
