@@ -181,6 +181,7 @@ export default function AddModal() {
             setSelectedImage(event.target.files[0].name);
           }}
         />
+        {/* <img src={selectedImageUrl} style={{objectFit: "cover"}} width={"100px"} height={"100px"} alt="" /> */}
         </Form.Item>
         {/* <button onClick={downloader}>OK</button> */}
         {/* </Form.Item> */}
@@ -417,9 +418,9 @@ export const DeleteModal = (keyy) => {
   let navigate = useNavigate()
   const ShowConfirm = () => {
     confirm({
-      title: "Do you Want to delete these items?",
+      title: "Are you sure you want to delete the product?",
       icon: <ExclamationCircleFilled />,
-      content: "Some descriptions",
+      // content: "Some descriptions",
       onOk() {
         console.log("OK");
         DeleteProduct(keyy,navigate)
