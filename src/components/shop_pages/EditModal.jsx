@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Button, Modal, message } from "antd";
 import { Checkbox, Form, Input } from "antd";
-import InputMask from 'react-input-mask';
+import InputMask from "react-input-mask";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const EditModal = ({setShunchaki, keyy}) => {
+const EditModal = ({ setShunchaki, keyy }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  async function addClients(values){
-    const {address, email, username, phone} = values;
+
+  async function addClients(values) {
+    const { address, email, username, phone } = values;
     try {
       const docRef = await updateDoc(doc(db, "clients", keyy), {
         username: username,
@@ -18,11 +18,11 @@ const EditModal = ({setShunchaki, keyy}) => {
         address: address,
       });
       // console.log("Document written with ID: ", docRef.id);
-      message.success("Update client was successfully completed!")
+      message.success("Update client was successfully completed!");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    setShunchaki(isModalOpen)
+    setShunchaki(isModalOpen);
   }
 
   const showModal = () => {
@@ -38,7 +38,7 @@ const EditModal = ({setShunchaki, keyy}) => {
   };
   const onFinish = (values) => {
     console.log("Success:", values);
-    addClients(values)
+    addClients(values);
     handleOk();
   };
 
@@ -82,10 +82,9 @@ const EditModal = ({setShunchaki, keyy}) => {
           <Form.Item
             label="Username"
             name="username"
-            
             rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input allowClear/>
+            <Input allowClear />
           </Form.Item>
 
           <Form.Item
@@ -93,7 +92,7 @@ const EditModal = ({setShunchaki, keyy}) => {
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input allowClear/>
+            <Input allowClear />
           </Form.Item>
           <Form.Item
             label="Phone"
@@ -102,9 +101,9 @@ const EditModal = ({setShunchaki, keyy}) => {
           >
             <InputMask
               mask="+998 (99) 999-99-99"
-              maskChar={null}  
+              maskChar={null}
               // type="tel"
-              
+
               className="ant-input css-dev-only-do-not-override-htwhyh"
               // permanents={[0, 1]}
             />
@@ -115,7 +114,7 @@ const EditModal = ({setShunchaki, keyy}) => {
             name="address"
             rules={[{ required: true, message: "Please input your address!" }]}
           >
-            <Input allowClear/>
+            <Input allowClear />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
