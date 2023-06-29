@@ -65,14 +65,7 @@ const SignIn = () => {
         autoComplete="off"
       >
         <div className="signin_form">
-          <img
-            src={"https://cdn-icons-png.flaticon.com/128/1698/1698771.png"}
-            alt=""
-            width="200px"
-            height={"100px"}
-            style={{ marginBottom: 20 + "px", objectFit: "cover" }}
-          />
-
+          
           
           <Form.Item
             label="Email"

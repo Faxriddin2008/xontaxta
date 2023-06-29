@@ -6,7 +6,7 @@ import { Modal } from "antd";
 import AddModal from "./Modal";
 import SetBasket from "../getSales";
 import { getBasketProductsFromFirebase } from "../../shop_pages/getBasket";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Navigate } from "../../CheckingFunctions";
 function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, withadd }) {
@@ -98,7 +98,8 @@ function Product({setLoad, name, rating, qty, discount, keyy, imgUrl, price, wit
       await updateDoc(washingtonReff, {
         quantity:  qtyyy  - 1,
       })}else {
-        
+        console.log(filter.idd);
+          await deleteDoc(doc(db , `${userEmail}.products`, "knpFeyNfECE8LknobNBh"));
       }
       // console.log();
     }
@@ -164,3 +165,5 @@ export default Product;
 // 1. basketdagi xatoliklar ✅ 
 // 2. orderdagi statuslar 
 // 3. UI
+
+

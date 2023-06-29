@@ -137,7 +137,7 @@ function Sales() {
                   <Spin size="large" />
                  : 
                   <Table
-                    style={{ width: "1110px", marginLeft: "30px" , marginTop: "-10px"}}
+                    style={{ width: "1120px", marginLeft: "-10px" , marginTop: "0px"}}
                     columns={ShopCardData()}
                     dataSource={salesss}
                   />

@@ -191,9 +191,9 @@ function Order() {
                 ) : (
                   <Table
                     style={{
-                      width: "1110px",
-                      marginLeft: "30px",
-                      marginTop: "-10px",
+                      width: "1120px",
+                      marginLeft: "-10px",
+                      marginTop: "0px",
                     }}
                     columns={ShopCardData()}
                     dataSource={saless}

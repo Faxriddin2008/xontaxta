@@ -38,6 +38,7 @@ function Products() {
   const [arrr, setArrr] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([])
   const [load, setLoad] = useState(true);
+  const [shunchaki, setShunchaki] = useState(true)
   useEffect(() => {
     async function getProducts() {
       const products = await getProductsFromFirebase(userEmail);
@@ -80,14 +81,31 @@ function Products() {
     );
     setArrr(newArr);
   }
+
+  function sort(){
+    const sorted = filteredProducts.sort(function (a, b) {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+    setArrr(sorted)
+    setShunchaki(false)
+  }
   const [pageee, setPageee] = useState(1);
     // const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   // console.log(arrr[2]);
   let navigate = useNavigate();
 
   function lastAdded(){
-    // const filter = filteredProducts.filter(item => item.time > new Date().getTime() - 3600000)
-    // setArrr(filter) 
+    setShunchaki(false)
+    const filter = filteredProducts.sort((a,b) => {return a.time - b.time;})
+    console.log(filter);
+    setArrr(filter)
+    setShunchaki(true)
   }
   return (
     <div className="shop-page">
@@ -124,11 +142,12 @@ function Products() {
                   onChange={(page, size) => setPageee(page)}
                   style={{ position: "absolute", marginLeft: -500 + "px" }}
                 />
-                <button>
+                <button onClick={sort}>
                   <i className="bx bx-sort-down"></i>
                 </button>
                 {/* <button> */}
                   <Select
+                  className="sorter"
                     onChange={(value) => filterHandler(value)}
                     defaultValue={provinceData[0]}
                     style={{
@@ -143,7 +162,7 @@ function Products() {
                 <button onClick={lastAdded}>Oxirgi qo'shilganlar</button>
               </div>
             </div>
-            {load == false ? 
+            {load == false || shunchaki == false ? 
             <div className="cards">
               { arrr.length != 0
                 ? arrr.map((item, i) => (

@@ -124,6 +124,14 @@ function InBasket() {
     // console.log(product.data());
     // Set the "capital" field of the city 'DC'
     if(qty != 0){
+
+//       const filter =  p.filter(item => item.id == idd)
+
+// if(filter.length == 0){
+//  addDoc
+// }else{
+//   updateDoc
+// }
       await updateDoc(washingtonRef, {
         qty:  qty  - 1,
       });
@@ -275,7 +283,7 @@ function InBasket() {
               {load == true ? (
                 <Spin size="large" />
               ) : (
-                <Table style={{width: "1110px", marginLeft: "30px"}} columns={ShopCardData()} dataSource={basket} />
+                <Table style={{width: "1120px", marginLeft: "-10px"}} columns={ShopCardData()} dataSource={basket} />
               )}  
             </div>
           </div>
@@ -286,3 +294,11 @@ function InBasket() {
 }
 
 export default InBasket;
+
+// const filter =  products.filter(item => item.id == idd)
+
+// if(filter.length == 0){
+ // addDoc
+//}else{
+  // updateDoc
+//}
