@@ -67,12 +67,7 @@ function Clients() {
   const [shunchaki, setShunchaki] = useState([]);
   const [load, setLoad] = useState(true);
   async function getClients() {
-    //   const querySnapshot = await getDocs(collection(db, "products"));
-    //   return querySnapshot.docs.forEach((doc) => {
-    //     return doc
-    //   });
-
-    // console.log(userEmail);
+  
     const getClients = [];
     const clients = await getDocs(collection(db, `clients`));
     // console.log(products.docChanges());
