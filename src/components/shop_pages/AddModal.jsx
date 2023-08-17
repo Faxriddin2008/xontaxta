@@ -17,7 +17,6 @@ const AddModal = ({setShunchaki}) => {
         phone: phone,
         address: address,
       });
-      // console.log("Document written with ID: ", docRef.id);
       message.success("Create client was successfully completed!")
     } catch (e) {
       console.error("Error adding document: ", e);
